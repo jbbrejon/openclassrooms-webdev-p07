@@ -19,6 +19,13 @@ app.use('/', (req, res, next) => {
 // Parse incoming requests with JSON payloads (http://expressjs.com/en/api.html#express.json)
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
+const db = require("./models/");
+
+db.sequelize.sync();
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Make module available through "require()" from other project scripts (https://nodejs.org/api/modules.html#module)
 module.exports = app;
