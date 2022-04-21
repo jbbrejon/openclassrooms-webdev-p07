@@ -103,15 +103,6 @@ exports.getAllUsers = (req, res) => {
 
 
 
-/*MODIFIE L'UTILISATEUR
-*Contient deux branches principales :
-*La première vérifie si l'utilisateur est administrateur grâce au userIdOrder envoyé par le front puis lance la modification 
-*La seconde vérifie si l'utilisateur qui demande la modification est bien celui qui a créé l'utilisateur
-*Deux sous branches :
-*Check si l'utilisateur modifie son mot de passe
-*S'il modifie son mot de passe il va être hashé et toutes ses informations peuvent être modifiées sinon toutes les informations sauf le mot de passe seront modifiées
-*/
-
 
 //CRUD(UPDATE) - Modify one user
 exports.modifyUser = (req, res) => {
@@ -213,14 +204,6 @@ exports.modifyUser = (req, res) => {
         });
 };
 
-/*MODIFIE L'IMAGE DE L'UTILISATEUR
-*Contient deux branches principales :
-*La première vérifie si l'utilisateur est administrateur grâce au userIdOrder envoyé par le front puis lance la modification 
-*La seconde vérifie si l'utilisateur qui demande la modification est bien celui qui a créé l'utilisateur
-*Deux sous branches :
-*Check si l'utilisateur a une photo de profil ou non
-*Si une image existe déjà elle est supprimée du fichier "images" et remplacée par la nouvelle sinon la nouvelle image est simplement créée
-*/
 
 //CRUD(UPDATE) - Modify one user (avatar)
 exports.modifyUserPicture = (req, res) => {
@@ -336,14 +319,7 @@ exports.modifyUserPicture = (req, res) => {
         });
 };
 
-/*SUPPRIME L'UTILISATEUR
-*Contient deux branches principales :
-*La première vérifie si l'utilisateur est administrateur grâce au userIdOrder envoyé par le front puis lance la suppression
-*La seconde vérifie si l'utilisateur qui demande la suppression est bien celui qui a créé l'utilisateur
-*Deux sous branches :
-*Check si l'utilisateur a une photo de profil ou non
-*Si une image existe déjà elle est supprimée du fichier "images" puis l'utilisateur est supprimé sinon seul l'utilisateur est supprimé
-*/
+
 
 //CRUD(DELETE) - Delete one user
 exports.deleteUser = (req, res) => {
