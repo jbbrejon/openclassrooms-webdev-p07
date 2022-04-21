@@ -4,6 +4,7 @@
 const express = require('express'); // https://www.npmjs.com/package/express
 const env = require('dotenv').config(); // https://www.npmjs.com/package/dotenv
 const path = require('path'); // https://nodejs.org/api/path.htm
+const userRoutes = require('./routes/user');
 
 // Create "Express" app
 const app = express();
@@ -26,6 +27,8 @@ const db = require("./models/");
 db.sequelize.sync();
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use('/api/auth', userRoutes);
 
 // Make module available through "require()" from other project scripts (https://nodejs.org/api/modules.html#module)
 module.exports = app;
