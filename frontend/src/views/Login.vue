@@ -1,12 +1,16 @@
 <template>
   <main>
-    <div class="card">
-      <h1 class="card__title" v-if="mode == 'login'">Se connecter</h1>
-      <h1 class="card__title" v-else>Créer un compte</h1>
-      <div class="card__logo">
-        <img src="../assets/logo-auth.png" alt="logo groupomania" />
-      </div>
-      <div class="form">
+    <div class="card-auth">
+      <h1 class="card-auth__title" v-if="mode == 'login'">Se connecter</h1>
+      <h1 class="card-auth__title" v-else>Créer un compte</h1>
+
+      <img
+        class="card-auth__logo"
+        src="../assets/logo-auth.png"
+        alt="logo groupomania"
+      />
+
+      <div class="form-auth">
         <label for="email">Email</label>
         <input
           type="email"
@@ -24,7 +28,7 @@
           required
         />
       </div>
-      <div class="form" v-if="mode == 'signUp'">
+      <div class="form-auth" v-if="mode == 'signUp'">
         <label for="firstname">Prénom</label>
         <input
           type="text"
@@ -49,11 +53,13 @@
 
       <p v-if="mode == 'signUp'">
         Déjà inscrit ?
-        <span class="card__action" @click="switchToLogin">Se connecter</span>
+        <span class="card-auth__action" @click="switchToLogin"
+          >Se connecter</span
+        >
       </p>
       <p v-else>
         Pas encore inscrit ?
-        <span class="card__action" @click="switchToSignUp"
+        <span class="card-auth__action" @click="switchToSignUp"
           >Créer un compte</span
         >
       </p>
@@ -136,7 +142,7 @@ export default {
             .then((response) => {
               this.saveUserInLocalStorage(response.data),
                 this.$store.dispatch("getUserInfos"),
-                this.$router.push("Topic");
+                this.$router.push("Home");
             })
             .catch(() => {
               alert("Cette adresse email existe déjà !");
@@ -155,7 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
+.card-auth {
   background-color: white;
   border: solid 1px #dfe0e3;
   max-width: 300px;
@@ -189,14 +195,11 @@ export default {
     display: flex;
     justify-content: center;
     height: 80px;
+    object-fit: contain;
     padding: 25px 0;
-    .img {
-      height: 80px;
-      object-fit: cover;
-    }
   }
 
-  .form {
+  .form-auth {
     display: flex;
     flex-direction: column;
     input {
