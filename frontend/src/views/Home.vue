@@ -1013,6 +1013,7 @@ container-comment {
       margin-right: 5px;
       img {
         height: 25px;
+        width: 25px;
         border-radius: 50px;
         object-fit: cover;
       }
