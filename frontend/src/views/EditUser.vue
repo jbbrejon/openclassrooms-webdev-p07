@@ -210,6 +210,7 @@ export default {
             .then(() => {
               alert("Mot de passe modifié");
               this.$store.dispatch("getUserInfos");
+              this.$router.push(`/user/${userId}`);
             })
             .catch(() => {
               alert("Impossible de modifier le mot de passe");
@@ -244,6 +245,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getUserInfos");
           alert("Votre photo a été modifiée");
+          this.$router.push(`/user/${userId}`);
         })
         .catch(() => {
           alert("Veuillez sélectionner une photo de profil");
