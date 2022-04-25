@@ -24,12 +24,14 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+// Connections to mysql DB
 const db = require("./models/");
-
 db.sequelize.sync();
 
+// Set static path for "images" folder
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+// Specity which route file to call
 app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
