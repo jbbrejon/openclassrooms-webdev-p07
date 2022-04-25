@@ -77,7 +77,7 @@
             @click="deletePost"
             :postId="item.id"
           >
-            Supprimer le post
+            <i class="fa-solid fa-trash"></i>
           </button>
         </div>
         <div
@@ -94,7 +94,7 @@
               type="text"
               name="post"
               title="Modifier le texte du post"
-              placeholder="Modification du texte"
+              placeholder="Modififier le texte du post"
             />
             <input
               type="submit"
@@ -181,6 +181,8 @@
                   </p>
                   <div class="article-comment__date">
                     <p>{{ formatDate(i.createdAt) }}</p>
+                  </div>
+                  <div class="article-comment__date">
                     <p v-if="i.updatedAt != i.createdAt">
                       Edité le {{ formatDate(i.updatedAt) }}
                     </p>
@@ -238,7 +240,7 @@ import { mapState } from "vuex";
 let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
 export default {
-  name: "multitopic",
+  name: "home",
   data() {
     return {
       commentData: {
@@ -651,7 +653,8 @@ export default {
 
 .scroller {
   display: flex;
-  background-color: #ffd8d8;
+  background-color: white;
+  border: solid 1px #dfe0e3;
   overflow-y: scroll;
   flex-direction: column;
   width: 100%;
@@ -660,6 +663,7 @@ export default {
   margin-bottom: 20px;
   padding: 10px 0;
   border-radius: 0 0 5px 5px;
+  box-shadow: 2px 2px 2px #dfe0e3;
   &:hover {
     transition: 1000ms;
     max-height: 500px;
@@ -836,14 +840,18 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  width: 100%;
 }
 
 .article-post {
   display: flex;
   flex-direction: column;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   border: solid 1px #dfe0e3;
+  border-bottom: none;
+  width: 100%;
+  box-shadow: 2px 2px 2px #dfe0e3;
   &__user {
     display: flex;
     align-items: center;
@@ -854,6 +862,7 @@ export default {
     &__avatar {
       display: flex;
       height: 30px;
+      width: 30px;
       object-fit: cover;
       border-radius: 50px;
     }
@@ -892,7 +901,8 @@ export default {
     padding: 5px 10px;
     margin: 0;
     font-size: 12px;
-    background-color: #dfe0e3;
+    background-color: #2e405d;
+    color: white;
   }
 }
 
@@ -903,29 +913,33 @@ export default {
   width: 100%;
   border-top: solid 1px #ffd8d8;
   border-bottom: solid 1px #ffd8d8;
-  margin-bottom: 5px;
+  background-color: #dfe0e3;
+  margin-bottom: 0 5px;
   &__text {
     display: flex;
     width: 85%;
     height: 25px;
-    margin: 10px;
-    background-color: #e2e3e5;
+    margin: 5px 10px;
+    background-color: white;
     border: none;
     padding: 5px;
     border-radius: 5px;
   }
   &__file {
     display: flex;
+    background-color: #dfe0e3;
+    margin: 5px 10px;
   }
 
   &__picture {
     display: flex;
     justify-content: left;
+    background-color: #dfe0e3;
   }
   &__submit {
     display: flex;
     border: none;
-    background: white;
+    background-color: #dfe0e3;
     color: #fd3004;
     opacity: 80%;
     margin-right: 10px;
@@ -937,11 +951,14 @@ export default {
   }
   &__deletecontainer {
     display: flex;
+    justify-content: right;
+    background-color: #ffd8d8;
     margin: 0;
+    padding: 2px;
   }
   &__delete {
     border: none;
-    background-color: white;
+    background-color: #ffd8d8;
     margin: 0;
     color: #dc3545;
     opacity: 80%;
@@ -978,7 +995,9 @@ container-comment {
     &__image {
       display: flex;
       height: 25px;
+      width: 25px;
       padding: 5px;
+      margin-right: 5px;
       img {
         height: 25px;
         border-radius: 50px;
@@ -1046,6 +1065,7 @@ container-comment {
 
 .container-createcomment {
   display: flex;
+  background-color: white;
 }
 
 .form-createcomment {
