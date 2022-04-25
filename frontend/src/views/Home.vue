@@ -913,10 +913,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-top: solid 1px #ffd8d8;
-  border-bottom: solid 1px #ffd8d8;
+
   background-color: #dfe0e3;
-  margin-bottom: 0 5px;
   &__text {
     display: flex;
     width: 85%;
@@ -930,10 +928,9 @@ export default {
     display: flex;
     width: 100%;
     height: 25px;
-
     background-color: white;
     border: none;
-    padding: 5px;
+    padding: 0 5px;
     border-radius: 5px;
   }
   &__file {
