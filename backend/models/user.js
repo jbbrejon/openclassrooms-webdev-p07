@@ -1,4 +1,7 @@
+// SCRIPT DESCRIPTION : sequelize model for users
+
 module.exports = (sequelize, Sequelize) => {
+    //Call "define()" method from sequelize module to define model
     const User = sequelize.define("user", {
         email: {
             type: Sequelize.STRING,
@@ -13,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        name: {
+        lastname: {
             type: Sequelize.STRING,
             allowNull: false
         },

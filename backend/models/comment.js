@@ -1,14 +1,21 @@
+// SCRIPT DESCRIPTION : sequelize model for comments
+
 module.exports = (sequelize, Sequelize) => {
+    //Call "define()" method from sequelize module to define model
     const Comment = sequelize.define("comment", {
-        user_id: {
+        userId: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        post_id: {
+        topicId: {
             type: Sequelize.STRING,
             allowNull: true,
         },
-        text: {
+        postId: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        content: {
             type: Sequelize.STRING,
             allowNull: false
         },
