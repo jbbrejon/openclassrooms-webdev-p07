@@ -1,4 +1,4 @@
-// SCRIPT DESCRIPTION : "Express" routes for "/api/auth/signup" and "api/auth/login" (called from ../app.js)
+// SCRIPT DESCRIPTION : "Express" routes for "/api/comments" (called from ../app.js)
 
 // Module dependencies
 const commentCtrl = require('../controllers/comment');
