@@ -49,7 +49,7 @@
     </div>
     <div class="form-container">
       <h2 class="form-container__title">Modifier mon avatar</h2>
-      <form class="form">
+      <div class="form">
         <label class="form__file" for="file" title="Joindre une image">
           <input
             ref="file"
@@ -61,7 +61,7 @@
           <i class="fa-solid fa-image"></i>
         </label>
         <p class="btn btn-edit" @click="editUserPicture">Envoyer</p>
-      </form>
+      </div>
     </div>
     <div class="form-container">
       <h2 class="form-container__title">Modifier mon mot de passe</h2>

@@ -200,7 +200,7 @@ exports.modifyUserPicture = (req, res) => {
 
     const token = req.headers.authorization.split(' ')[1];
     // Call "verify()" method from jsonwebtoken module to decode token
-    const decodedToken = jwt.verify(token, tokenString); n
+    const decodedToken = jwt.verify(token, tokenString);
     const userId = decodedToken.userId;
 
     const id = req.params.id;
