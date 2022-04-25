@@ -1,32 +1,40 @@
+// SCRIPT DESCRIPTION : Controller for "/api/auth/" (called from ../routes/user.js)
+
+// Module dependencies
 const db = require("../models");
-const Post = db.posts;
-const User = db.users;
-const Comment = db.comments;
+
 const Op = db.Sequelize.Op;
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
+// Call models
+const Post = db.posts;
+const User = db.users;
+const Comment = db.comments;
+
+// Set variable : token string for 'sign()' method of jsonwebtoken
 const tokenString = process.env.JSON_WEB_TOKEN;
 
-// CRUD(CREATE) - Create post
+// CRUD(CREATE) - Set "create post" operations (create new "post" in mysql db)
 exports.createPost = (req, res) => {
     let image;
     let text = req.body.text;
     if (req.file) {
-        // Set new image URL based on filename sent by "multer-config" middleware
+        // Set image URL based on filename sent by "multer-config" middleware
         image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } else {
         image == null
     };
     if (image == null || text == null) {
-        res.status(400).json({ error: 'Votre post est vide' })
+        res.status(400).json({ error: 'Rien à publier' })
     } else {
         const post = {
-            user_id: req.body.userId,
+            userId: req.body.userId,
             text: text,
+            /*La variable image est placée dans une instance de post*/
             imageUrl: image
         };
-        // Call create() method to create user in dB
+        // Call "create()" method from sequelize module
         Post.create(post)
             .then((data) => {
                 res.send(data);
@@ -37,10 +45,10 @@ exports.createPost = (req, res) => {
     }
 };
 
-// CRUD(READ) - Get one post
+// CRUD(READ) - Set "getOnePost" operations (get "post" from mysql db)
 exports.getOnePost = (req, res) => {
     const id = req.params.id;
-    // Call findByPk() method to get one post in dB
+    // Call "findByPK()" method from sequelize module
     Post.findByPk(id)
         .then((post) => {
             res.status(200).json(post)
@@ -50,11 +58,11 @@ exports.getOnePost = (req, res) => {
         });
 };
 
-// CRUD(READ) - Get all posts
+// CRUD(READ) - Set "getAllPosts" operations (get "posts" from mysql db)
 exports.getAllPosts = (req, res) => {
     const text = req.query.text;
     const condition = text ? { text: { [Op.like]: `%${text}%` } } : null;
-    // Call findAll() method to get all posts from dB
+    // Call "findAll()" method from sequelize module
     Post.findAll({
         where: condition,
         order: [
@@ -70,44 +78,41 @@ exports.getAllPosts = (req, res) => {
 };
 
 
-// CRUD(UPDATE) - Modify on post
+// CRUD(UPDATE) - Set "modifyPostDescription" operation (modify "post" in mysql db)
 exports.modifyPostDescription = (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
-    //Call verify() method from jsonwebtoken module to decode token
     const decodedToken = jwt.verify(token, tokenString);
-    //Get user's id from decoded token
+    // Call "verify()" method from jsonwebtoken module to decode token
     const userId = decodedToken.userId;
-
     const id = req.params.id;
-
     const userIdOrder = req.body.userIdOrder;
-    //Call "findByPK() method to get user
+    // Call "findByPK()" method from sequelize module
     User.findByPk(userIdOrder)
         .then(user => {
             if (user.isAdmin == true && user.id == userId) {
-                //Call "update() method to update post
+                // Call "update()" method from sequelize module
                 Post.update(req.body, { where: { id: id } })
                     .then(() => {
-                        res.status(200).json({ message: 'Post modifié' })
+                        res.status(200).json({ message: 'Post modifié!' })
                     })
                     .catch((error) => {
                         res.status(400).json({ error })
                     });
             } else {
-                //Call "findByPK() method to get post
+                // Call "findByPK()" method from sequelize module
                 Post.findByPk(id)
                     .then(post => {
                         if (post.userId == userId) {
-                            //Call "update() method to update post
+                            // Call "update()" method from sequelize module
                             Post.update(req.body, { where: { id: id } })
                                 .then(() => {
-                                    res.status(200).json({ message: 'Post modifié' })
+                                    res.status(200).json({ message: 'Post modifié!' })
                                 })
                                 .catch((error) => {
                                     res.status(400).json({ error })
                                 });
                         } else {
-                            res.status(401).json({ message: 'Opération non autorisée pour cet utilisateur' })
+                            res.status(401).json({ message: 'Opération non autorisée' })
                         }
                     })
                     .catch((error) => {
@@ -119,45 +124,41 @@ exports.modifyPostDescription = (req, res) => {
             res.status(500).send({ error });
         });
 };
-
-
+// CRUD(UPDATE) - Set "modifyPostPicture" operation (modify "post" in mysql db)
 exports.modifyPostPicture = (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
-    //Call verify() method from jsonwebtoken module to decode token
+    // Call "verify()" method from jsonwebtoken module to decode token
     const decodedToken = jwt.verify(token, tokenString);
-    //Get user's id from decoded token
     const userId = decodedToken.userId;
-
     const id = req.params.id;
-
     const userIdOrder = req.body.userIdOrder;
-    //Call "findByPK() method to get user
+    // Call "findByPK()" method from sequelize module
     User.findByPk(userIdOrder)
         .then(user => {
             if (user.isAdmin == true && user.id == userId) {
-                //Call "findByPK() method to get post
+                // Call "findByPK()" method from sequelize module
                 Post.findByPk(id)
                     .then(post => {
                         let image
                         if (req.file) {
-                            // Set new image URL based on filename sent by "multer-config" middleware
+                            // Set image URL based on filename sent by "multer-config" middleware
                             image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                         } else {
                             image == null;
                         };
                         if (image == null) {
-                            res.status(400).json({ error: "Votre image n'a pas été soumise" })
+                            res.status(400).json({ error: 'Vous n\'avez pas chargé l\'image !' })
                         } else {
                             const filename = post.imageUrl.split('/images/')[1];
-                            //Call unlink() method to delete picture
+                            // Call "unlink()" method from fs to delete picture
                             fs.unlink(`images/${filename}`, () => {
                                 const post = {
                                     imageUrl: image,
                                 };
-                                //Call "update() method to update post
+                                // Call "update()" method from sequelize module
                                 Post.update(post, { where: { id: id } })
                                     .then(() => {
-                                        res.status(200).json({ message: 'Photo modifiée !' })
+                                        res.status(200).json({ message: 'Photo modifiée en tant qu\'administrateur!' })
                                     })
                                     .catch((error) => {
                                         res.status(400).json({ error })
@@ -169,26 +170,27 @@ exports.modifyPostPicture = (req, res) => {
                         res.status(500).send({ error });
                     });
             } else {
-                //Call "findByPK() method to get post
+                // Call "findByPK()" method from sequelize module
                 Post.findByPk(id)
                     .then(post => {
                         if (post.userId == userId) {
                             let image
                             if (req.file) {
-                                // Set new image URL based on filename sent by "multer-config" middleware
+                                // Set image URL based on filename sent by "multer-config" middleware
                                 image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                             } else {
                                 image == null;
                             };
                             if (image == null) {
-                                res.status(400).json({ error: "Votre image n'a pas été soumise" })
+                                res.status(400).json({ error: 'Vous n\'avez pas chargé l\'image !' })
                             } else {
                                 const filename = post.imageUrl.split('/images/')[1];
-                                //Call unlink() method to delete picture
+                                // Call "unlink()" method from fs to delete picture
                                 fs.unlink(`images/${filename}`, () => {
                                     const post = {
                                         imageUrl: image,
                                     };
+                                    // Call "update()" method from sequelize module
                                     Post.update(post, { where: { id: id } })
                                         .then(() => {
                                             res.status(200).json({ message: 'Photo modifiée !' })
@@ -199,7 +201,7 @@ exports.modifyPostPicture = (req, res) => {
                                 });
                             }
                         } else {
-                            res.status(401).json({ message: 'Opération non autorisée pour cet utilisateur' })
+                            res.status(401).json({ message: 'Opération non autorisée' })
                         }
                     })
                     .catch((error) => {
@@ -212,33 +214,30 @@ exports.modifyPostPicture = (req, res) => {
         });
 };
 
-
+// CRUD(DELETE) - Set "deletePost" operation (delete "post" from mysql db)
 exports.deletePost = (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
-    //Call verify() method from jsonwebtoken module to decode token
+    // Call "verify()" method from jsonwebtoken module to decode token
     const decodedToken = jwt.verify(token, tokenString);
-    //Get user's id from decoded token
     const userId = decodedToken.userId;
-
     const id = req.params.id;
-
     const userIdOrder = req.body.userIdOrder;
-    //Call "findByPK() method to get user
+    // Call "findByPK()" method from sequelize module
     User.findByPk(userIdOrder)
         .then(user => {
             if (user.isAdmin == true && user.id == userId) {
-                //Call "findByPK() method to get post
+                // Call "findByPK()" method from sequelize module
                 Post.findByPk(id)
                     .then(post => {
                         const filename = post.imageUrl.split('/images/')[1];
-                        //Call unlink() method to delete picture
+                        // Call "unlink()" method from fs to delete picture
                         fs.unlink(`images/${filename}`, () => {
-                            //Call "destroy() method to delete post
+                            // Call "destroy()" method from sequelize module
                             Post.destroy({ where: { id: id } })
                                 .then(() => {
                                     Comment.destroy({ where: { postId: id } })
                                         .then(() => {
-                                            res.status(200).json({ message: 'Post et commentaires supprimés' })
+                                            res.status(200).json({ message: 'Post et commentaires supprimés en tant qu\'administrateur !' })
                                         })
                                         .catch((error) => {
                                             res.status(400).json({ error })
@@ -253,19 +252,20 @@ exports.deletePost = (req, res) => {
                         res.status(500).send({ error });
                     });
             } else {
-                //Call "findByPK() method to get post
+                // Call "findByPK()" method from sequelize module
                 Post.findByPk(id)
                     .then(post => {
                         if (post.userId == userId) {
                             const filename = post.imageUrl.split('/images/')[1];
-                            //Call unlink() method to delete picture
+                            // Call "unlink()" method from fs to delete picture
                             fs.unlink(`images/${filename}`, () => {
-                                //Call "destroy() method to delete post
+                                // Call "destroy()" method from sequelize module
                                 Post.destroy({ where: { id: id } })
                                     .then(() => {
+                                        // Call "destroy()" method from sequelize module
                                         Comment.destroy({ where: { postId: id } })
                                             .then(() => {
-                                                res.status(200).json({ message: 'Post et commentaires supprimés !' })
+                                                res.status(200).json({ message: 'Post et Commentaires supprimés !' })
                                             })
                                             .catch((error) => {
                                                 res.status(400).json({ error })
@@ -276,7 +276,7 @@ exports.deletePost = (req, res) => {
                                     });
                             });
                         } else {
-                            res.status(401).json({ message: 'Opération non autorisée pour cet utilisateur' })
+                            res.status(401).json({ message: 'Opération non autorisée' })
                         }
                     })
                     .catch((error) => {
