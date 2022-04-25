@@ -11,8 +11,11 @@
 </template>
 
 <script>
+// Import components
 import Header from "./components/Header.vue";
 import HeaderLog from "./components/HeaderLog.vue";
+
+//Import mapstate (state from ../store.index.js)
 import { mapState } from "vuex";
 
 export default {
@@ -20,9 +23,11 @@ export default {
     Header,
     HeaderLog,
   },
+  //register mounted() hook
   mounted() {
     this.$store.dispatch("getUserInfos");
   },
+  //computed properties
   computed: {
     ...mapState({ user: "userInfos" }),
   },

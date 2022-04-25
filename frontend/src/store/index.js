@@ -1,7 +1,10 @@
+//Module dependencies
 import { createStore } from 'vuex';
 import axios from 'axios';
 
+//Create new store instance
 export default createStore({
+  //root state
   state: {
     allUsersInfos: [],
     userInfos: [],
@@ -9,6 +12,7 @@ export default createStore({
     commentInfos: [],
     postInfos: [],
   },
+  //save mutations to store
   mutations: {
     USER_INFOS(state, userInfos) {
       state.userInfos = userInfos
@@ -23,25 +27,24 @@ export default createStore({
       state.postInfos = postInfos
     },
   },
+  //save actions to store
   actions: {
-
-
-
     getUserInfos() {
+      //Get localstorage user key
       let userInLocalStorage = JSON.parse(localStorage.getItem('user'));
 
       if (userInLocalStorage != null) {
-
+        // If null, create localstorage user key
         let userId = userInLocalStorage.map(user => user.userId);
-
         let userToken = userInLocalStorage.map(user => user.token);
-
+        //Get user properties from API
         axios.get(`http://localhost:3000/api/auth/${userId}`, {
           headers: {
             Authorization: "Bearer " + userToken
           }
         })
           .then(response => {
+            // Call commit() method of store instance -> mutation
             this.commit('USER_INFOS', response.data)
           })
           .catch((error) => {
@@ -50,29 +53,30 @@ export default createStore({
       }
     },
 
-
     getAllComments() {
+      //Get localstorage user key
       let userInLocalStorage = JSON.parse(localStorage.getItem('user'));
-
       let userToken = userInLocalStorage.map(user => user.token);
-
+      //Get all comments properties from API
       axios.get('http://localhost:3000/api/comment', {
         headers: {
           Authorization: "Bearer " + userToken
         }
       })
         .then(response => {
+          // Call commit() method of store instance -> mutation
           this.commit('COMMENT_INFOS', response.data)
         })
         .catch((error) => {
           alert(error)
         });
     },
+
     getAllUsers() {
+      //Get localstorage user key
       let userInLocalStorage = JSON.parse(localStorage.getItem('user'));
-
       let userToken = userInLocalStorage.map(user => user.token);
-
+      //Get all users properties from API
       axios.get('http://localhost:3000/api/auth', {
         headers: {
           Authorization: "Bearer " + userToken
@@ -86,10 +90,10 @@ export default createStore({
         });
     },
     getAllPosts() {
+      //Get localstorage user key
       let userInLocalStorage = JSON.parse(localStorage.getItem('user'));
-
       let userToken = userInLocalStorage.map(user => user.token);
-
+      //Get all posts properties from API
       axios.get('http://localhost:3000/api/post', {
         headers: {
           Authorization: "Bearer " + userToken
