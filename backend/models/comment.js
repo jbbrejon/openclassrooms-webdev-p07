@@ -7,10 +7,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        topicId: {
-            type: Sequelize.STRING,
-            allowNull: true,
-        },
         postId: {
             type: Sequelize.STRING,
             allowNull: true,
