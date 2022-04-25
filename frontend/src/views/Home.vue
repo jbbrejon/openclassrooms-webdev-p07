@@ -89,13 +89,15 @@
             @submit.prevent="modifyPostDescription"
             :postId="item.id"
           >
-            <input
-              class="edit-post__text"
-              type="text"
-              name="post"
-              title="Modifier le texte du post"
-              placeholder="Modififier le texte du post"
-            />
+            <label class="edit-post__text">
+              <input
+                class="edit-post__text-input"
+                type="text"
+                name="post"
+                title="Modifier le texte du post"
+                placeholder="Modififier le texte du post"
+              />
+            </label>
             <input
               type="submit"
               class="edit-post__submit"
@@ -105,21 +107,21 @@
           </form>
         </div>
 
-        <form
+        <div
           v-if="item.userId == user.id || user.isAdmin == true"
           class="edit-post__picture"
         >
-          <label for="">
+          <label class="edit-post__label" for="file" title="Joindre une image">
             <input
-              class="edit-post__file"
               ref="file"
               id="file"
               name="file"
-              title="Selectionnez un fichier"
               @change="selectFile"
               type="file"
             />
+            <i class="fa-solid fa-image edit-post__input-file"></i>
           </label>
+
           <button
             class="edit-post__submit"
             @click="modifyPostPicture"
@@ -128,7 +130,7 @@
           >
             Modifier l'image
           </button>
-        </form>
+        </div>
 
         <div class="container-createcomment">
           <form
@@ -479,7 +481,7 @@ export default {
         alert("Veuillez remplir le champ de modification du post");
       }
     },
-    PostPicture(event) {
+    modifyPostPicture(event) {
       let postId = event.target.getAttribute("postId");
 
       let userToken = userInLocalStorage.map((user) => user.token);
@@ -918,8 +920,17 @@ export default {
   &__text {
     display: flex;
     width: 85%;
-    height: 25px;
     margin: 5px 10px;
+    background-color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  &__text-input {
+    display: flex;
+    width: 100%;
+    height: 25px;
+
     background-color: white;
     border: none;
     padding: 5px;
@@ -927,8 +938,19 @@ export default {
   }
   &__file {
     display: flex;
+    align-items: center;
     background-color: #dfe0e3;
     margin: 5px 10px;
+  }
+  &__input-file {
+    color: #fd3004;
+    font-size: 20px;
+    padding-left: 5px;
+    opacity: 80%;
+    &:hover {
+      cursor: pointer;
+      opacity: 100%;
+    }
   }
 
   &__picture {
