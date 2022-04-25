@@ -908,12 +908,11 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-
-  background-color: #dfe0e3;
+  background-color: #ffd8d8;
   &__text {
     display: flex;
     width: 85%;
-    margin: 5px 10px;
+    margin: 10px 10px;
     background-color: white;
     border: none;
     padding: 5px;
@@ -937,7 +936,7 @@ export default {
   &__input-file {
     color: #fd3004;
     font-size: 20px;
-    padding-left: 5px;
+    padding-left: 10px;
     opacity: 80%;
     &:hover {
       cursor: pointer;
@@ -948,7 +947,7 @@ export default {
   &__picture {
     display: flex;
     justify-content: left;
-    background-color: #dfe0e3;
+    background-color: #ffd8d8;
   }
   &__submit {
     display: flex;
@@ -973,7 +972,7 @@ export default {
   &__delete {
     border: none;
     background-color: #ffd8d8;
-    margin: 0;
+    margin-top: 5px;
     color: #dc3545;
     opacity: 80%;
     &:hover {
