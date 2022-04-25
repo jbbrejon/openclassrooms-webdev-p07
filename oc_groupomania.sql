@@ -25,13 +25,12 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` varchar(255) NOT NULL,
-  `topicId` varchar(255) DEFAULT NULL,
   `postId` varchar(255) DEFAULT NULL,
   `content` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +39,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (3,'3',NULL,'2','Merci Jean-Baptiste!','2022-04-25 04:49:24','2022-04-25 04:55:29'),(4,'5',NULL,'2','Merci à toi!','2022-04-25 05:07:24','2022-04-25 05:07:24'),(5,'1',NULL,'3','Merci. A toi aussi !','2022-04-25 05:11:47','2022-04-25 05:11:47'),(6,'1',NULL,'5','Good luck, bro!','2022-04-25 05:27:29','2022-04-25 09:20:21'),(7,'3',NULL,'5','Bon courage, Garth!','2022-04-25 05:30:40','2022-04-25 05:30:40'),(8,'3',NULL,'4','Je ne ferrai aucun commentaire ...','2022-04-25 05:31:01','2022-04-25 09:21:48'),(9,'1',NULL,'4','Moi j\'ai bien envie d\'en faire des commentaires ! ?','2022-04-25 09:22:04','2022-04-25 09:22:04'),(10,'5',NULL,'6','On est à fond, boss !','2022-04-25 11:46:04','2022-04-25 11:46:04');
+INSERT INTO `comments` VALUES (3,'3','2','Merci Jean-Baptiste!','2022-04-25 04:49:24','2022-04-25 04:55:29'),(4,'5','2','Merci à toi!','2022-04-25 05:07:24','2022-04-25 05:07:24'),(5,'1','3','Merci. A toi aussi !','2022-04-25 05:11:47','2022-04-25 05:11:47'),(6,'1','5','Good luck, bro!','2022-04-25 05:27:29','2022-04-25 09:20:21'),(7,'3','5','Bon courage, Garth!','2022-04-25 05:30:40','2022-04-25 05:30:40'),(8,'3','4','Je ne ferrai aucun commentaire ...','2022-04-25 05:31:01','2022-04-25 09:21:48'),(9,'1','4','Moi j\'ai bien envie d\'en faire des commentaires ! ?','2022-04-25 09:22:04','2022-04-25 09:22:04'),(10,'5','6','On est à fond, boss !','2022-04-25 11:46:04','2022-04-25 11:46:04'),(11,'10','5','Hello','2022-04-25 13:31:48','2022-04-25 13:31:48');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +58,7 @@ CREATE TABLE `posts` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +91,7 @@ CREATE TABLE `users` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-25 14:08:09
+-- Dump completed on 2022-04-25 16:08:07
