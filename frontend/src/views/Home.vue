@@ -67,18 +67,13 @@
         <p class="article-post__date">
           {{ formatDate(item.createdAt) }}
         </p>
-        <div
-          v-if="item.userId == user.id || user.isAdmin == true"
-          class="edit-post__deletecontainer"
-        >
-          <button
-            class="edit-post__delete"
+        <div v-if="item.userId == user.id || user.isAdmin == true">
+          <i
+            class="fa-solid fa-trash-can edit-post__delete"
             title="Supprimer le post"
             @click="deletePost"
             :postId="item.id"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
+          ></i>
         </div>
         <div
           v-if="item.userId == user.id || user.isAdmin == true"
