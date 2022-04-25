@@ -34,7 +34,7 @@ export default createStore({
       let userInLocalStorage = JSON.parse(localStorage.getItem('user'));
 
       if (userInLocalStorage != null) {
-        // If null, create localstorage user key
+        //Get localstorage user key information
         let userId = userInLocalStorage.map(user => user.userId);
         let userToken = userInLocalStorage.map(user => user.token);
         //Get user properties from API

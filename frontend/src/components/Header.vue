@@ -23,30 +23,34 @@
 
 
 <script>
+// Module dependencies
 import axios from "axios";
 
 export default {
   name: "Header",
 
   methods: {
+    //Remove user key from localstorage
     deconnectUser() {
       localStorage.clear();
+      //Call go method from router to refresh page
       this.$router.go();
     },
     getOneUser() {
+      // Get user key from localstorage
       let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
-
       if (userInLocalStorage != null) {
+        // Get localstorage user key information
         let userId = userInLocalStorage.map((user) => user.userId);
-
         let userToken = userInLocalStorage.map((user) => user.token);
-
+        // Get user properties from API
         axios
           .get(`http://localhost:3000/api/auth/${userId}`, {
             headers: {
               Authorization: "Bearer " + userToken,
             },
           })
+          // Route to user page
           .then(this.$router.push(`/user/${userId}`))
           .catch(() => {
             alert("Impossible d'être redirigé");

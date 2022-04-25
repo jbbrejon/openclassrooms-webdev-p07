@@ -1,18 +1,21 @@
+// Module dependencies
 import { createRouter, createWebHistory } from 'vue-router'
 
-
+// Create route objet
 const routes = [
   {
     path: '/',
     name: 'Login',
+    // Import vue component
     component: () => import("../views/Login.vue"),
     meta: {
-      title: 'Accueil',
+      title: ' Connexion - Groupomania',
     }
   },
   {
     path: '/home',
     name: 'Home',
+    // Import vue component
     component: () => import("../views/Home.vue"),
     meta: {
       title: 'Home - Groupomania',
@@ -21,21 +24,24 @@ const routes = [
   {
     path: '/user/:id',
     name: 'User',
+    // Import vue component
     component: () => import("../views/User.vue"),
     meta: {
-      title: 'Utilisateur',
+      title: 'Profil - Groupomania',
     }
   },
   {
     path: '/edituser/:id',
     name: 'EditUser',
+    // Import vue component
     component: () => import("../views/EditUser.vue"),
     meta: {
-      title: 'Utilisateur',
+      title: 'Gestion du profil - Groupomania',
     }
   },
 ]
 
+// Set router
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
