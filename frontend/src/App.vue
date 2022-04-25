@@ -40,6 +40,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f0f2f5;
+  font-family: "Montserrat", sans-serif;
 }
 .generalBody {
   margin: 0px;
@@ -85,6 +86,7 @@ h1 {
   font-size: 22px;
   font-weight: bold;
   color: #2e405d;
+  font-family: "Roboto", sans-serif;
 }
 
 .card-create {
