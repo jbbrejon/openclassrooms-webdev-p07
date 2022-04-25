@@ -11,6 +11,11 @@ Frontend :
 - npm install
 - npm run serve
 
+
 Base de données mysql :
 - importer depuis le fichier oc_groupomania.sql
 - modifier les informations de connexion dans le fichier backend/.env
+
+Compte déjà crée dans la bdd pour se connecter à l'application (frontend) :
+- email : openclassrooms@groupomania.com
+- password : TestOC01*
