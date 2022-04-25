@@ -1,27 +1,23 @@
-// SCRIPT DESCRIPTION : "Express" routes for "/api/auth/ (called from ../app.js)
+// SCRIPT DESCRIPTION : "Express" routes for "/api/auth/" (called from ../app.js)
 
 // Module dependencies
 const userCtrl = require('../controllers/user');
 const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
+const multer = require('../middleware/multer');
 const express = require('express');
 
 // Create "Express" router with "Router()" method (http://expressjs.com/en/5x/api.html#router)
 const router = express.Router();
 
-// Set route : "/api/auth/signup" POST requests
+
+// Specify which controller to call for each route
 router.post('/signup', userCtrl.signup);
-// Set route : "/api/auth/login" POST requests
 router.post('/login', userCtrl.login);
-// Set route : "/api/auth/:id" DELETE requests
 router.delete('/:id', auth, userCtrl.deleteUser);
-// Set route : "/api/auth/:id" PUT requests
 router.put('/:id', auth, multer, userCtrl.modifyUser);
-// Set route : "/api/auth/:id" GET requests
 router.get('/:id', auth, userCtrl.getOneUser);
-// Set route : "/api/auth/" GET requests
 router.get('/', auth, userCtrl.getAllUsers);
-// Set route : "/api/auth/image/:id" PUT requests
 router.put('/image/:id', auth, multer, userCtrl.modifyUserPicture);
 
+// Make module available through require() from other project scripts (https://nodejs.org/api/modules.html#module)
 module.exports = router;
