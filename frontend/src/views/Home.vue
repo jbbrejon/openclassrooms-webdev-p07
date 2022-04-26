@@ -231,13 +231,16 @@
 </template>
 
 <script>
+//Module dependencies
 import axios from "axios";
 import { mapState } from "vuex";
 
+//Get localstorage user key
 let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
 export default {
   name: "home",
+  // Set data
   data() {
     return {
       commentData: {
@@ -249,6 +252,7 @@ export default {
       },
     };
   },
+  // Register mounted() hook
   mounted() {
     if (userInLocalStorage == null) {
       this.$router.push("/");
@@ -259,6 +263,7 @@ export default {
       this.$store.dispatch("getAllPosts");
     }
   },
+  //computed properties
   computed: {
     ...mapState({ user: "userInfos" }),
     ...mapState({ allUsers: "allUsersInfos" }),
@@ -266,6 +271,7 @@ export default {
     ...mapState({ comment: "commentInfos" }),
   },
   methods: {
+    // Format date
     formatDate(bddDate) {
       const date = new Date(bddDate);
 
@@ -277,15 +283,16 @@ export default {
     },
 
     createComment(event) {
+      // Listen to create comment events
       const postId = event.target.getAttribute("postId");
-
       const content = event.target.elements.commentaire.value;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
 
       if (content != "") {
+        // API request to create comment
         axios
           .post(
             "http://localhost:3000/api/comment",
@@ -311,15 +318,16 @@ export default {
       }
     },
     modifyComment(event) {
+      // Listen to modify comment events
       let commentId = event.target.getAttribute("commentId");
-
       const content = event.target.elements.commentaire.value;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
 
       if (content != "") {
+        // API request to update comment
         axios
           .put(
             `http://localhost:3000/api/comment/${commentId}`,
@@ -344,12 +352,13 @@ export default {
       }
     },
     deleteComment(event) {
+      // Listen to delete comment events
       let commentId = event.target.getAttribute("commentId");
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // API request to delete comment
       axios
         .delete(`http://localhost:3000/api/comment/${commentId}`, {
           headers: {
@@ -368,10 +377,11 @@ export default {
     },
 
     getOneUser(event) {
+      // Listen to get user events
       let userId = event.target.getAttribute("userId");
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // API request to get user's details
       axios
         .get(`http://localhost:3000/api/auth/${userId}`, {
           headers: {
@@ -379,31 +389,34 @@ export default {
           },
         })
         .then(() => {
+          // Redirect to user's page
           this.$router.push(`/user/${userId}`);
         })
         .catch(() => {
-          alert("Impossbile de sélectionner l'utilisateur");
+          alert("Impossible de sélectionner l'utilisateur");
         });
     },
 
     selectFile(event) {
+      // Listen to file upload events
       this.dataPost.image = event.target.files[0] || event.dataTransfer.files;
     },
 
     createPost(event) {
+      // Listen to create post events
       const text = event.target.elements.post.value;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // Set form data for file upload and post details (text, user's id)
       const formData = new FormData();
-
       formData.append("image", this.dataPost.image);
       formData.append("text", text);
       formData.append("userId", userId[0]);
 
       if (text != "") {
+        // API request to create post
         axios
           .post("http://localhost:3000/api/post", formData, {
             headers: {
@@ -411,6 +424,7 @@ export default {
             },
           })
           .then(() => {
+            // Refresh posts
             this.$store.dispatch("getAllPosts");
           })
           .catch(() => {
@@ -421,12 +435,13 @@ export default {
       }
     },
     deletePost(event) {
+      // Listen to delete post events
       let postId = event.target.getAttribute("postId");
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // API request to delete post
       axios
         .delete(`http://localhost:3000/api/post/${postId}`, {
           headers: {
@@ -437,6 +452,7 @@ export default {
           },
         })
         .then(() => {
+          // Refresh posts
           this.$store.dispatch("getAllPosts");
         })
         .catch(() => {
@@ -444,15 +460,16 @@ export default {
         });
     },
     modifyPostDescription(event) {
+      // Listen to modify post events (text)
       let postId = event.target.getAttribute("postId");
-
       let text = event.target.elements.post.value;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
 
       if (text != "") {
+        // API request to update post
         axios
           .put(
             `http://localhost:3000/api/post/${postId}`,
@@ -467,6 +484,7 @@ export default {
             }
           )
           .then(() => {
+            // Refresh posts
             this.$store.dispatch("getAllPosts");
           })
           .catch(() => {
@@ -477,17 +495,17 @@ export default {
       }
     },
     modifyPostPicture(event) {
+      // Listen to modify post picture events
       let postId = event.target.getAttribute("postId");
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // Set formdata for file upload
       const formData = new FormData();
-
       formData.append("image", this.dataPost.image);
       formData.append("userIdOrder", userId[0]);
-
+      // API request to update post's picture
       axios
         .put(`http://localhost:3000/api/post/image/${postId}`, formData, {
           headers: {
@@ -495,6 +513,7 @@ export default {
           },
         })
         .then(() => {
+          // Refresh post
           this.$store.dispatch("getAllPosts");
         })
         .catch(() => {
