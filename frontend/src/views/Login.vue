@@ -68,12 +68,15 @@
 </template>
 
 <script>
+//Module dependencies
 import axios from "axios";
 
+//Get localstorage user key
 let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
 export default {
   name: "Login",
+  // Set data
   data() {
     return {
       dataLogin: {
@@ -85,12 +88,13 @@ export default {
       mode: "login",
     };
   },
+  // Register mounted() hook
   mounted() {
     if (userInLocalStorage != null) {
       this.$router.push("/home");
     }
   },
-
+  // Alternate Signup and login screen
   methods: {
     switchToSignUp() {
       this.mode = "signUp";
@@ -99,6 +103,7 @@ export default {
       this.mode = "login";
     },
 
+    // Create user key in localstorage
     saveUserInLocalStorage(response) {
       if (userInLocalStorage === null) {
         userInLocalStorage = [];
@@ -111,12 +116,15 @@ export default {
         localStorage.setItem("user", JSON.stringify(userInLocalStorage));
       }
     },
+    // Login operations
     login() {
+      // API request check email and password
       axios
         .post("http://localhost:3000/api/auth/login", {
           email: this.dataLogin.email,
           password: this.dataLogin.password,
         })
+        // Call method to create user key in localstorage
         .then((response) => {
           this.saveUserInLocalStorage(response.data), this.$router.go();
         })
@@ -124,14 +132,17 @@ export default {
           alert("Identifiant ou mot de passe incorrect !");
         });
     },
+    // Signup operations
     signUp() {
+      //Set password regex
       const passwordRegex =
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,30})$/;
-
+      //Set email regex
       const emailRegex = /^[^@&"/()!_$*€£`+=;?#]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-
+      // Check email and password regex compliance
       if (passwordRegex.test(this.dataLogin.password) == true) {
         if (emailRegex.test(this.dataLogin.email) == true) {
+          // API request to create new user
           axios
             .post("http://localhost:3000/api/auth/signup", {
               email: this.dataLogin.email,
@@ -139,6 +150,7 @@ export default {
               lastname: this.dataLogin.lastname,
               password: this.dataLogin.password,
             })
+            // Call method to create user key in localstorage, then redirect to home page
             .then((response) => {
               this.saveUserInLocalStorage(response.data),
                 this.$store.dispatch("getUserInfos"),
