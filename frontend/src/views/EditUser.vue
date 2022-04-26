@@ -94,14 +94,16 @@
 </template>
 
 <script>
+//Module dependencies
 import axios from "axios";
 import { mapState } from "vuex";
 
+//Get localstorage user key
 let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
 export default {
   name: "EditUser",
-
+  // Set data
   data() {
     return {
       dataEdit: {
@@ -117,7 +119,7 @@ export default {
       },
     };
   },
-
+  // Register mounted() hook
   mounted() {
     let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
@@ -127,22 +129,24 @@ export default {
       this.$store.dispatch("getUserInfos");
     }
   },
-
+  //computed properties
   computed: {
     ...mapState({ user: "userInfos" }),
   },
 
   methods: {
+    // Listen to file upload events
     selectFile(event) {
       this.dataEdit.image = event.target.files[0] || event.dataTransfer.files;
     },
     editUser() {
+      // Get user's id from params
       const id = this.$route.params.id;
-
+      // Set email regex
       const emailRegex = /^[^@&"/()!_$*€£`+=;?#]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
 
       const copy = Object.assign({}, this.dataEdit);
@@ -154,9 +158,11 @@ export default {
       }
 
       if (
+        // Check email regex compliance
         emailRegex.test(this.dataEdit.email) == true ||
         this.dataEdit.email == null
       ) {
+        // API request to update user's details
         axios
           .put(
             `http://localhost:3000/api/auth/${id}`,
@@ -183,17 +189,20 @@ export default {
       }
     },
     editUserPassword() {
+      // Get user's id from params
       const id = this.$route.params.id;
-
+      // Set password regex
       const passwordRegex =
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,30})$/;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
 
       if (this.passwordCheck.password == this.dataEdit.password) {
+        // Check email regex compliance
         if (passwordRegex.test(this.dataEdit.password) == true) {
+          // API request to update user's password
           axios
             .put(
               `http://localhost:3000/api/auth/${id}`,
@@ -225,17 +234,18 @@ export default {
       }
     },
     editUserPicture() {
+      // Get user's id from params
       const id = this.$route.params.id;
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // Set formData for file upload
       const formData = new FormData();
 
       formData.append("image", this.dataEdit.image);
       formData.append("userIdOrder", userId[0]);
-
+      // API request to update user's avatar
       axios
         .put(`http://localhost:3000/api/auth/image/${id}`, formData, {
           headers: {
@@ -252,12 +262,13 @@ export default {
         });
     },
     deleteUser() {
+      // Get user's id from params
       const id = this.$route.params.id;
-
+      // Get user's id from user key in localstorage
       let userId = userInLocalStorage.map((user) => user.userId);
-
+      // Get token from user key in localstorage
       let userToken = userInLocalStorage.map((user) => user.token);
-
+      // API request to delete user
       axios
         .delete(`http://localhost:3000/api/auth/${id}`, {
           headers: {
@@ -268,7 +279,9 @@ export default {
           },
         })
         .then(() => {
+          // Delete user's key from localstorage
           localStorage.clear();
+          // Redirection to login screen
           this.$router.push("/");
         })
         .catch(() => {
