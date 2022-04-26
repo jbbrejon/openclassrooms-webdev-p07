@@ -29,11 +29,12 @@
 </template>
 
 <script>
+//Import mapstate (state from ../store.index.js)
 import { mapState } from "vuex";
 
 export default {
   name: "User",
-
+  //register mounted() hook
   mounted() {
     let userInLocalStorage = JSON.parse(localStorage.getItem("user"));
 
@@ -44,6 +45,7 @@ export default {
       this.$store.dispatch("getAllUsers");
     }
   },
+  //computed properties
   computed: {
     ...mapState({ user: "userInfos" }),
     userInfos() {
@@ -52,6 +54,7 @@ export default {
       );
     },
   },
+  //format date
   methods: {
     formatDate(bddDate) {
       const date = new Date(bddDate);
@@ -97,18 +100,6 @@ export default {
       border-radius: 50%;
       object-fit: cover;
       margin-right: 20px;
-    }
-  }
-  &__card__bio {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 2%;
-    margin-bottom: 2%;
-    span {
-      margin-top: 2%;
-      font-style: italic;
     }
   }
 }
