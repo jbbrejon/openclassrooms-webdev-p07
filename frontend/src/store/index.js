@@ -8,7 +8,6 @@ export default createStore({
   state: {
     allUsersInfos: [],
     userInfos: [],
-    topicInfos: [],
     commentInfos: [],
     postInfos: [],
   },
